@@ -134,7 +134,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
     });
 
-   // const modalTimerId = setTimeout(openModal, 5000);
+   const modalTimerId = setTimeout(openModal, 5000);
 
     function showModalByScroll(){
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight){
@@ -221,7 +221,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     // Forms
 
-    const forms = document.querySelector('form');
+    const forms = document.querySelectorAll('form');
 
     const message = {
         loading: 'Загрузка',
@@ -229,6 +229,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         failure: 'Что-то пошло не так...'
     };
     
+
+
     forms.forEach(item => {
         postData(item);
     });
@@ -245,15 +247,26 @@ window.addEventListener('DOMContentLoaded', () =>{
             const request = new XMLHttpRequest();
             request. open('POST', 'server.php');
 
-            request.setRequestHeader('Content-type', 'multipart/form-data')
+            request.setRequestHeader('Content-type', 'multipart/form-data');
             const formData = new FormData(form);
 
-            recuest.seconds(formData);
+            const object ={};
+            formData.forEach(function(value, key){
+                object[key] = value;
+            });
+
+            const json = JSON.stringify(object);
+
+            request.send(json);
 
             request.addEventListener('load', () => {
                 if (request.status === 200){
                     console.log(request.response);
                     statusMessage.textContent = message.success;
+                    form.reset();
+                    setTimeout(() =>{
+                        statusMessage.remove();
+                    }, 2000);
                 } else {
                     statusMessage.textContent = message.failure;
                 }
