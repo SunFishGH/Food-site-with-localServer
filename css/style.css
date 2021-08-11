@@ -240,15 +240,15 @@ a {
 
 .offer {
     padding: 70px 0 100px 0;
-    position: relative
+    position: relative;
 }
 
-.offer.container {
+.offer .container {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
-.offer.bgc_y {
+.offer .bgc_y {
     position: absolute;
     width: 1109px;
     height: 780px;
